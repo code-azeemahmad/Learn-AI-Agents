@@ -1,0 +1,165 @@
+prompt.md
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.*
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.pyre/
+.ruff_cache/
+
+# =========================
+# Environment & Secrets
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# API keys / credentials
+*.pem
+*.key
+secrets/
+credentials/
+credentials.json
+
+# =========================
+# FastAPI / Uvicorn
+# =========================
+
+# Logs
+*.log
+logs/
+
+# =========================
+# LangChain / LangGraph
+# =========================
+
+# LangGraph local state/checkpoints
+.langgraph/
+langgraph_data/
+checkpoints/
+
+# LangSmith local/config data
+.langsmith/
+
+# =========================
+# LlamaIndex
+# =========================
+
+# Local indexes / vector stores
+storage/
+index_storage/
+llamaindex_storage/
+
+# =========================
+# AI / Vector Databases
+# =========================
+
+# Local vector DB data
+chroma/
+chroma_db/
+.qdrant/
+qdrant_data/
+weaviate_data/
+milvus_data/
+
+# FAISS / local indexes
+*.faiss
+*.index
+
+# =========================
+# Jupyter
+# =========================
+
+.ipynb_checkpoints/
+
+# =========================
+# IDEs / Editors
+# =========================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# =========================
+# OS
+# =========================
+
+Thumbs.db
+Desktop.ini
+
+# =========================
+# Temporary files
+# =========================
+
+*.tmp
+*.temp
+tmp/
+temp/
+
+# =========================
+# Database
+# =========================
+
+*.sqlite
+*.sqlite3
+*.db
+
+# =========================
+# Docker
+# =========================
+
+.docker/
+
+# =========================
+# Project-specific generated data
+# =========================
+
+data/
+uploads/
+downloads/
+cache/
+.cache/
+
+# Generated documents / outputs
+output/
+outputs/
+
+# =========================
+# Node (if frontend is included)
+# =========================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
