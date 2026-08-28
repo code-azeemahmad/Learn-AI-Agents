@@ -42,9 +42,9 @@ def planner(state: State):
     
     print(f"\n[Planner] Attempt {replan_count + 1} for task: '{task}'")
     
-    # 💥 SIMULATION: Planner generates an invalid plan on the first try
+    # SIMULATION: Planner generates an invalid plan on the first try
     if "invalid" in task and replan_count == 0:
-        print("  [Planner] ❌ Validation Error: Plan is missing required steps.")
+        print("  [Planner] Validation Error: Plan is missing required steps.")
         return {
             "failure": {"type": "invalid_plan", "message": "Empty plan generated.", "step": None},
             "replan_count": replan_count + 1
@@ -70,29 +70,29 @@ def executor(state: State):
     
     print(f"  [Executor] Attempt {retry_count + 1} for Step {cursor}: {step_name}")
     
-    # 💥 SIMULATION: Transient network failure (Timeout)
+    # SIMULATION: Transient network failure (Timeout)
     if "transient" in task_str and cursor == 0 and retry_count < 2:
-        print("  [Executor] ❌ Error: API Timeout")
+        print("  [Executor] Error: API Timeout")
         return {
             "failure": {"type": "transient", "message": "Timeout", "step": cursor},
             "retry_count": retry_count + 1
         }
         
-    # 💥 SIMULATION: Stale plan discovered during execution
+    # SIMULATION: Stale plan discovered during execution
     if "stale" in task_str and cursor == 1:
-        print("  [Executor] ❌ Error: The targeted API was deprecated!")
+        print("  [Executor] Error: The targeted API was deprecated!")
         return {
             "failure": {"type": "stale_plan", "message": "API deprecated", "step": cursor}
         }
         
-    # 💥 SIMULATION: Unrecoverable authorization error
+    # SIMULATION: Unrecoverable authorization error
     if "unrecoverable" in task_str and cursor == 0:
-        print("  [Executor] ❌ Error: Access Denied. Insufficient permissions.")
+        print("  [Executor] Error: Access Denied. Insufficient permissions.")
         return {
             "failure": {"type": "unrecoverable", "message": "Access Denied", "step": cursor}
         }
         
-    # ✅ SUCCESS
+    # SUCCESS
     return {
         "results": [f"Completed: {step_name}"],
         "current_step": cursor + 1,
@@ -112,32 +112,32 @@ def recovery_router(state: State) -> Literal["planner", "executor", END]:
         # POLICY: Retries for transient mechanical errors
         if err_type == "transient":
             if state.get("retry_count", 0) <= MAX_RETRIES:
-                print("  [Router] 🔄 Transient failure detected. Routing to EXECUTOR (Retry).")
+                print("  [Router] Transient failure detected. Routing to EXECUTOR (Retry).")
                 return "executor"
             else:
-                print("  [Router] 🛑 Max retries exhausted. Halting.")
+                print("  [Router] Max retries exhausted. Halting.")
                 return END
                 
         # POLICY: Replans for strategic/validation errors
         if err_type in ["invalid_plan", "stale_plan", "missing_capability"]:
             # Note: replan_count tracks total planner calls, so max 2 replans = 3 calls
             if state.get("replan_count", 0) <= MAX_REPLANS:
-                print(f"  [Router] 🔄 {err_type.upper()} detected. Routing to PLANNER (Replan).")
+                print(f"  [Router] {err_type.upper()} detected. Routing to PLANNER (Replan).")
                 return "planner"
             else:
-                print("  [Router] 🛑 Max replans exhausted. Halting.")
+                print("  [Router] Max replans exhausted. Halting.")
                 return END
                 
         # POLICY: Hard stop for unrecoverable errors
         if err_type == "unrecoverable":
-            print("  [Router] 🛑 Unrecoverable failure. Halting.")
+            print("  [Router] Unrecoverable failure. Halting.")
             return END
 
     # No failures. Proceed with execution or terminate if complete.
     if state["current_step"] < len(state["plan"]):
         return "executor"
         
-    print("  [Router] ✅ Plan complete. Routing to END.")
+    print("  [Router] Plan complete. Routing to END.")
     return END
 
 # ==========================================
